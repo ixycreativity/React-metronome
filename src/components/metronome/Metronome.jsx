@@ -6,16 +6,26 @@ import click2 from "../../assets/click2.wav";
 const Metronome = () => {
   const [bpm, setBpm] = useState(60);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [count, setCount] = useState(0);
+  const [countPlays, setCountPlays] = useState(0);
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
+  const counterRef = useRef();
 
   const sound1 = new Audio(click1);
   const sound2 = new Audio(click2);
 
   useEffect(() => {
+    counterRef.current = countPlays;
+  });
+
+  useEffect(() => {
     const interval = setInterval(() => {
+      setCountPlays(counterRef.current + 1);
       if (isPlaying) {
-        sound1.play();
+        if (counterRef.current % beatsPerMeasure === 0) {
+          sound2.play();
+        } else {
+          sound1.play();
+        }
       }
     }, (60 / bpm) * 1000);
     return () => {
@@ -25,14 +35,6 @@ const Metronome = () => {
 
   const handleTogglePlay = () => {
     setIsPlaying(!isPlaying);
-    // const myInterval = setInterval(() => {
-    //   sound1.play();
-    // }, (60 / bpm) * 1000);
-    // if (!isPlaying) {
-    //   //myInterval();
-    //   clearInterval(myInterval);
-    // } else {
-    // }
   };
 
   const handleBpmChange = (e) => {
@@ -43,7 +45,9 @@ const Metronome = () => {
     <div className="metronome">
       <h1>Metronome</h1>
       <div className="bpm-range">
-        <p>{bpm}BPM</p>
+        <p>
+          {bpm}BPM Count {countPlays}
+        </p>
         <input
           type="range"
           min="6"
