@@ -53,10 +53,12 @@ const Metronome = () => {
   return (
     <div className="metronome">
       <h1>Metronome</h1>
+      <p>Set beats per measure:</p>
       <button onClick={handleBeatsPerMeasureDecrease}>-</button>
       <input type="text" value={beatsPerMeasure} />
       <button onClick={handleBeatsPerMeasureIncrease}>+</button>
       <div className="bpm-range">
+        <p>Set beats per minute:</p>
         <p>{bpm}BPM</p>
         <input
           type="range"
