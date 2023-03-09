@@ -31,7 +31,7 @@ const Metronome = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [isPlaying, bpm]);
+  }, [isPlaying, bpm, beatsPerMeasure]);
 
   const handleTogglePlay = () => {
     setIsPlaying(!isPlaying);
@@ -41,13 +41,23 @@ const Metronome = () => {
     setBpm(e.target.value);
   };
 
+  const handleBeatsPerMeasureDecrease = () => {
+    if (beatsPerMeasure >= 2) {
+      setBeatsPerMeasure(beatsPerMeasure - 1);
+    }
+  };
+  const handleBeatsPerMeasureIncrease = () => {
+    setBeatsPerMeasure(beatsPerMeasure + 1);
+  };
+
   return (
     <div className="metronome">
       <h1>Metronome</h1>
+      <button onClick={handleBeatsPerMeasureDecrease}>-</button>
+      <input type="text" value={beatsPerMeasure} />
+      <button onClick={handleBeatsPerMeasureIncrease}>+</button>
       <div className="bpm-range">
-        <p>
-          {bpm}BPM Count {countPlays}
-        </p>
+        <p>{bpm}BPM</p>
         <input
           type="range"
           min="6"
